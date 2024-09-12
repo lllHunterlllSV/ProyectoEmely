@@ -53,7 +53,13 @@ $ruta_archivo = $archivo['ruta_archivo'];
 <body>
     <div class="container">
         <h2>Archivo: <?php echo htmlspecialchars($archivo['nombre_archivo']); ?></h2>
-        <div id="pdf-container"></div>
+        <?php if ($id == 1): ?>
+            <!-- Mostrar en iframe si el id es 1 -->
+            <embed src="<?php echo htmlspecialchars($ruta_archivo); ?>#toolbar=0"width="100%" height="600px" style="border: none;"></iframe>
+        <?php else: ?>
+            <!-- Mostrar en contenedor scrollable para otros archivos -->
+            <div id="pdf-container"></div>
+        <?php endif; ?>
         <a href="portal.php" class="btn btn-secondary mt-3">Volver al portal</a>
     </div>
 
