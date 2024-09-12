@@ -20,6 +20,7 @@ if (!$archivo) {
 }
 
 $ruta_archivo = $archivo['ruta_archivo'];
+$tipo = $archivo['tipo_archivo'];
 ?>
 
 <!DOCTYPE html>
@@ -53,13 +54,29 @@ $ruta_archivo = $archivo['ruta_archivo'];
 <body>
     <div class="container">
         <h2>Archivo: <?php echo htmlspecialchars($archivo['nombre_archivo']); ?></h2>
-        <?php if ($id == 1): ?>
-            <!-- Mostrar en iframe si el id es 1 -->
-            <embed src="<?php echo htmlspecialchars($ruta_archivo); ?>#toolbar=0"width="100%" height="600px" style="border: none;"></iframe>
-        <?php else: ?>
+        
+        <!-- Detectar si es un móvil y usar Google Viewer para mostrar PDF -->
+        <script>
+            function isMobile() {
+                return /Mobi|Android/i.test(navigator.userAgent);
+            }
+        </script>
+        
+        <?php if ($id == 1 || $tipo == "web"): ?>
+            <!-- Mostrar en embed si el id es 1 o tipo web -->
+            <script>
+                if (isMobile()) {
+                    document.write('<iframe src="https://drive.google.com/file/d/1BOquku6Jv-4vF4DG8eZnCpugyFtwbZKF/preview" width="100%" height="600px" style="border: none;"></iframe>');
+                }
+            </script>
+            <embed src="<?php echo htmlspecialchars($ruta_archivo); ?>#toolbar=0" width="100%" height="600px" style="border: none;">
+        
+            <?php else: ?>
             <!-- Mostrar en contenedor scrollable para otros archivos -->
             <div id="pdf-container"></div>
-        <?php endif; ?>
+        <?php endif; ?>  
+        
+
         <a href="portal.php" class="btn btn-secondary mt-3">Volver al portal</a>
     </div>
 
